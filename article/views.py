@@ -77,13 +77,17 @@ def articles_with_date(request, year, month):
     return render_to_response('blog_with_date.html', context)
 
 
-def article_detail(request, article_id):
-    article = get_object_or_404(Article, pk=article_id)
-    article.readed_num += 1
-    article.save()
+def article_detail(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    if not request.COOKIES.get('blog_%s_readed' % article_pk):
+        article.readed_num += 1
+        article.save()
     context = {}
     context['article_obj'] = article
     context['previous_blog'] = Article.objects.filter(created_time__gt=article.created_time).last()
     context['next_blog'] = Article.objects.filter(created_time__lt=article.created_time).first()
 
-    return render_to_response("article_detail.html", context)
+    response = render_to_response("article_detail.html", context)
+    response.set_cookie('blog_%s_readed' % article_pk, 'true', max_age=60)
+
+    return response
