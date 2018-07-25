@@ -1,0 +1,21 @@
+{% extends 'article_list.html' %}
+{% block title %}
+    {{ blog_type.type_name }}
+{% endblock %}
+{% block blog_list_title %}
+    分类：{{ blog_type.type_name }}
+    <a href="{% url 'article_list' %}">查看全部博客</a>
+{#    （一共有{{ articles|length }}篇博文）#}
+{% endblock %}
+{#{% block content %}#}
+{#    {{ articles_count }}#}
+{#<h3>{{ blog_type.type_name }}</h3>#}
+{#    {% for article in articles %}#}
+{#        <a href="/article/{{ article.pk }}"><h2>{{ article.title }}</h2></a>#}
+{#        <p>{{ article.content|truncatechars:30 }}</p>#}
+{#        {% empty %}#}
+{#        <p>--暂无博客--</p>#}
+{#    {% endfor %}#}
+{##}
+{#{% endblock %}#}
+
