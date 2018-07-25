@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 # Create your models here.
@@ -15,8 +16,8 @@ class Article(models.Model):
     title = models.CharField(verbose_name='标题', max_length=50)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name='作者')
     blog_type = models.ForeignKey(BlogType, on_delete=models.DO_NOTHING, verbose_name='博客类型')
-    content = models.TextField()
-
+    content = RichTextUploadingField()
+    readed_num = models.IntegerField(default=0)
     created_time = models.DateTimeField(verbose_name='创建日期', auto_now_add=True)
     last_updated_time = models.DateTimeField(verbose_name='更新日期', auto_now=True)
 

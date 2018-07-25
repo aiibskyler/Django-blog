@@ -17,10 +17,17 @@ from django.contrib import admin
 from django.urls import include, path
 from . import views
 from article.views import article_list
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     # path('', article_list, name='home'),
-    path('article/', include('article.urls'))
+    path('article/', include('article.urls')),
+
+    path('ckeditor', include('ckeditor_uploader.urls')),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

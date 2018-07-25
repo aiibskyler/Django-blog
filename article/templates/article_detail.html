@@ -21,10 +21,27 @@
                     </a>
                     </li>
                     <li>发表日期：{{ article_obj.created_time|date:"Y-m-d H:i:s" }}</li>
+                    <li>阅读量：{{ article_obj.readed_num }}</li>
                 </ul>
 
 
-                <div class="blog-content">{{ article_obj.content }}</div>
+                <div class="blog-content">{{ article_obj.content|safe }}</div>
+                <div class="blog-more">
+                    <p>上一篇：
+                        {% if previous_blog %}
+                            <a href="{% url 'article_detail' previous_blog.pk %}">{{ previous_blog.title }}</a>
+                        {% else %}
+                            There is no article anymore.
+                        {% endif %}
+                    </p>
+                    <p>下一篇：
+                        {% if next_blog %}
+                            <a href="{% url 'article_detail' next_blog.pk %}">{{ next_blog.title }}</a>
+                        {% else %}
+                            There is no article anymore.
+                        {% endif %}
+                    </p>
+                </div>
             </div>
         </div>
     </div>

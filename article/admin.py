@@ -10,7 +10,7 @@ class BlogTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'author', 'blog_type', 'created_time', 'last_updated_time')
+    list_display = ('id', 'title', 'author', 'readed_num', 'blog_type', 'created_time', 'last_updated_time')
     ordering = ('-id',)  # -号倒序
 
 # admin.site.register(Article, ArticleAdmin)
