@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import BlogType, Article, ReadNum
+from .models import BlogType, Article
 
 
 # Register your models here.
@@ -10,11 +10,7 @@ class BlogTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'author', 'get_read_num', 'blog_type', 'created_time', 'last_updated_time')
+    list_display = ('id', 'title', 'author', 'blog_type', 'get_read_num', 'created_time', 'last_updated_time')
     ordering = ('-id',)  # -号倒序
-
-@admin.register(ReadNum)
-class ReadNumAdmin(admin.ModelAdmin):
-    list_display = ('read_num', 'blog')
 
 # admin.site.register(Article, ArticleAdmin)
