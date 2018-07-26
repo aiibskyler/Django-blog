@@ -1,6 +1,6 @@
 from django.shortcuts import render, render_to_response, get_object_or_404
 from django.http import HttpResponse, Http404
-from .models import Article, BlogType
+from .models import Article, BlogType, ReadNum
 from django.core.paginator import Paginator
 from django.conf import settings
 from django.db.models import Count
@@ -80,7 +80,15 @@ def articles_with_date(request, year, month):
 def article_detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     if not request.COOKIES.get('blog_%s_readed' % article_pk):
-        article.readed_num += 1
+        if ReadNum.objects.filter(blog=article).count():
+            readnum =ReadNum.objects.get(blog=article)
+            readnum.read_num += 1
+            readnum.save()
+        else:
+            readnum = ReadNum(blog=article)
+            readnum.read_num += 1
+            readnum.save()
+        # 不存在对应的记录
         article.save()
     context = {}
     context['article_obj'] = article

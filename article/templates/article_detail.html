@@ -21,7 +21,7 @@
                     </a>
                     </li>
                     <li>发表日期：{{ article_obj.created_time|date:"Y-m-d H:i:s" }}</li>
-                    <li>阅读量：{{ article_obj.readed_num }}</li>
+                    <li>阅读量：{{ article_obj.get_read_num }}</li>
                 </ul>
 
 
