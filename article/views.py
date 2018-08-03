@@ -3,8 +3,10 @@ from django.http import HttpResponse, Http404
 from .models import Article, BlogType
 from django.core.paginator import Paginator
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Count
 
+from comment.models import Comment
 from read_statistics.utils import read_statistics_once_read
 # Create your views here.
 # def article_detail(request, article_id):
@@ -14,7 +16,7 @@ from read_statistics.utils import read_statistics_once_read
 #             'article_obj': article,
 #         }  # 这里跟教程不一样，这是新的改动
 #         # return render(request, "article_detail.html", context)
-#         return render_to_response("article_detail.html", context)
+#         return render(request, "article_detail.html", context)
 #     except Article.DoesNotExist:
 #         raise Http404("页面不存在")
 #     # return HttpResponse('<h2>文章标题id: %s </h2> <br> <p> 文章内容：%s </p>' % (article.title,article.content))
@@ -60,7 +62,7 @@ def article_list(request):
     # articles = Article.objects.filter(is_deleted=False)
     article_all_list = Article.objects.all()
     context = get_blog_list_common_data(request, article_all_list)
-    return render_to_response("article_list.html", context)
+    return render(request, "article_list.html", context)
 
 
 def blog_with_type(request, blog_type_pk):
@@ -68,26 +70,28 @@ def blog_with_type(request, blog_type_pk):
     article_all_list = Article.objects.filter(blog_type=blog_type)
     context = get_blog_list_common_data(request, article_all_list)
     context['blog_type'] = blog_type
-    return render_to_response('blog_with_type.html', context)
+    return render(request, 'blog_with_type.html', context)
 
 
 def articles_with_date(request, year, month):
     article_all_list = Article.objects.filter(created_time__year=year, created_time__month=month)
     context = get_blog_list_common_data(request, article_all_list)
     context['blog_with_date'] = '%s年%s月' % (year, month)
-    return render_to_response('blog_with_date.html', context)
+    return render(request, 'blog_with_date.html', context)
 
 
 def article_detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     read_cookie_key = read_statistics_once_read(request, article)
-
+    article_content_type = ContentType.objects.get_for_model(article)
+    comments = Comment.objects.filter(content_type=article_content_type, object_id=article.pk)
     context = {}
-    context['article_obj'] = article
+    context['article'] = article
     context['previous_blog'] = Article.objects.filter(created_time__gt=article.created_time).last()
     context['next_blog'] = Article.objects.filter(created_time__lt=article.created_time).first()
-
-    response = render_to_response("article_detail.html", context)
+    context['comments'] = comments
+    # context['user'] = request.user
+    response = render(request, "article_detail.html", context)
     response.set_cookie(read_cookie_key, 'true', max_age=60)
 
     return response

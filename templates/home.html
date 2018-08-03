@@ -47,18 +47,19 @@
     <h3>今天热门博客</h3>
     <ul>
         {% for hot_data in today_hot_data %}
-            <li><a href="url 'article_detail'{{ hot_data.content_object.pk }}">{{ hot_data.content_object.title }}</a>({{ hot_data.read_num }})</li>
-
+            <li><a href="{% url 'article_detail' hot_data.content_object.pk %}">{{ hot_data.content_object.title }}</a>({{ hot_data.read_num }})</li>
         {% empty %}
             <li>今天暂时没有热门博客</li>
         {% endfor %}
     </ul>
     </div>
     <div class="hot-data">
+
+
     <h3>昨日热门博客</h3>
     <ul>
         {% for hot_data in yesterday_hot_data %}
-            <li><a href="url 'article_detail'{{ hot_data.content_object.pk }}">{{ hot_data.content_object.title }}</a>({{ hot_data.read_num }})</li>
+            <li><a href="{% url 'article_detail' hot_data.content_object.pk %}">{{ hot_data.content_object.title }}</a>({{ hot_data.read_num }})</li>
 
         {% empty %}
             <li>昨天暂时没有热门博客</li>
@@ -67,6 +68,9 @@
     </div>
 
     <div class="hot-data">
+
+
+
     <h3>7天内热门博客</h3>
     <ul>
         {% for hot_blog in hot_blogs_for_7_days %}
@@ -78,5 +82,4 @@
     </ul>
     </div>
 
-    <p>{{ read_nums }}</p>
 {% endblock %}
