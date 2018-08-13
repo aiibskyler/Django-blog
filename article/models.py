@@ -15,8 +15,8 @@ class BlogType(models.Model):
 
 class Article(models.Model,ReadNumExpandMethod):
     title = models.CharField(verbose_name='标题', max_length=50)
-    author = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name='作者')
-    blog_type = models.ForeignKey(BlogType, on_delete=models.DO_NOTHING, verbose_name='博客类型')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='作者')
+    blog_type = models.ForeignKey(BlogType, on_delete=models.CASCADE, verbose_name='博客类型')
     content = RichTextUploadingField()
     read_details = GenericRelation(ReadDetail)
     # read_num = models.IntegerField(default=0)

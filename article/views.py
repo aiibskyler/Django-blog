@@ -1,13 +1,12 @@
 from django.shortcuts import render, render_to_response, get_object_or_404
-from django.http import HttpResponse, Http404
 from .models import Article, BlogType
 from django.core.paginator import Paginator
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Count
-
-from comment.models import Comment
 from read_statistics.utils import read_statistics_once_read
+
+
 # Create your views here.
 # def article_detail(request, article_id):
 #     try:
@@ -36,14 +35,14 @@ def get_blog_list_common_data(request, article_all_list):
     for blog_type in blog_types:
         blog_type.blog_count = Article.objects.filter(blog_type = blog_type).count()
         blog_types_list.append(blog_type)'''
-    #获取日期归档对应的数量
+    # 获取日期归档对应的数量
 
-    blog_dates = Article.objects.dates('created_time', 'month', order="DESC")\
+    blog_dates = Article.objects.dates('created_time', 'month', order="DESC") \
         .annotate(blog_count=Count('created_time'))
-    blog_dates_dict ={}
+    blog_dates_dict = {}
     for blog_date in blog_dates:
-        blog_count = Article.objects.filter(created_time__year = blog_date.year,
-                                            created_time__month = blog_date.month).count()
+        blog_count = Article.objects.filter(created_time__year=blog_date.year,
+                                            created_time__month=blog_date.month).count()
         blog_dates_dict[blog_date] = blog_count
 
     context = {}
@@ -83,14 +82,10 @@ def articles_with_date(request, year, month):
 def article_detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     read_cookie_key = read_statistics_once_read(request, article)
-    article_content_type = ContentType.objects.get_for_model(article)
-    comments = Comment.objects.filter(content_type=article_content_type, object_id=article.pk)
     context = {}
     context['article'] = article
     context['previous_blog'] = Article.objects.filter(created_time__gt=article.created_time).last()
     context['next_blog'] = Article.objects.filter(created_time__lt=article.created_time).first()
-    context['comments'] = comments
-    # context['user'] = request.user
     response = render(request, "article_detail.html", context)
     response.set_cookie(read_cookie_key, 'true', max_age=60)
 

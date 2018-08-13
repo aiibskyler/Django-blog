@@ -28,6 +28,7 @@ urlpatterns = [
     # path('', article_list, name='home'),
     path('article/', include('article.urls')),
     path('login/', views.login, name='login'),
+    path('register/', views.register, name='register'),
     path('ckeditor', include('ckeditor_uploader.urls')),
     path('comment/', include('comment.urls')),
 ]
