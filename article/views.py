@@ -6,7 +6,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models import Count
 from read_statistics.utils import read_statistics_once_read
 
-
 # Create your views here.
 # def article_detail(request, article_id):
 #     try:

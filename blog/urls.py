@@ -22,14 +22,16 @@ from django.conf.urls.static import static
 
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
     # path('', article_list, name='home'),
     path('article/', include('article.urls')),
-    path('login/', views.login, name='login'),
-    path('register/', views.register, name='register'),
     path('ckeditor', include('ckeditor_uploader.urls')),
     path('comment/', include('comment.urls')),
+    path('likes/', include('likes.urls')),
+    path('user/', include('user.urls')),
+    path('', views.home, name='home'),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

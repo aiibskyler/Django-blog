@@ -25,6 +25,8 @@ SECRET_KEY = '_^2tks#uokz=-$rzjnnk$k5vdeuq+i7!^6=q=rz$w4g24(^tgn'
 DEBUG = True
 
 # ALLOWED_HOSTS = ['aiibskyler.pythonanywhere.com']
+ALLOWED_HOSTS = []
+# AUTH_USER_MODEL = 'user.User'
 
 # Application definition
 
@@ -40,6 +42,8 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'read_statistics',
     'comment',
+    'likes',
+    'user'
 ]
 
 MIDDLEWARE = [
@@ -67,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'user.context_processors.login_modal_form',
             ],
         },
     },

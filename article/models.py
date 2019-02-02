@@ -5,6 +5,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from read_statistics.models import ReadNumExpandMethod, ReadDetail
 
 
+
 # Create your models here.
 class BlogType(models.Model):
     type_name = models.CharField(max_length=15)
