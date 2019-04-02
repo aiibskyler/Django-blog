@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'article',
     'ckeditor',
     'ckeditor_uploader',
+    'corsheaders',
     'read_statistics',
     'comment',
     'likes',
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -56,14 +58,22 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ORIGIN_WHITELIST = (
+    '127.0.0.1:8080',
+    'localhost:8080',
+)
+
+CORS_ORIGIN_ALLOW_ALL = True
+
 ROOT_URLCONF = 'blog.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),
-        ],
+        'DIRS': ['frontend/dist'],
+        # 'DIRS': [
+        #     os.path.join(BASE_DIR, 'templates'),
+        # ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

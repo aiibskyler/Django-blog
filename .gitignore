@@ -1,0 +1,5 @@
+db.sqlite3
+setting.py
+__pycache__/
+.vscode/
+frontend/
